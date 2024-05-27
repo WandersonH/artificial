@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Produto</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Merriweather:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Merriweather', serif;
+            background-color: #ecf0f1;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #2c3e50;
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #2c3e50;
+            font-family: 'Montserrat', sans-serif;
+            margin-bottom: 1rem;
+        }
+        form div {
+            margin-bottom: 1rem;
+        }
+        button {
+            background-color: #27ae60;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border: none;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+        }
+        button:hover {
+            background-color: #e67e22;
+        }
+        .form-group label {
+            font-family: 'Montserrat', sans-serif;
+            color: #34495e;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #bdc3c7;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        {% load static %}
+        <!-- Exibir o logotipo -->
+        <img src="{% static 'lojista_app/images/logotipo.png' %}" alt="Logotipo" height="50">
+    </header>
+    <div class="container">
+        <h2>Criar Produto</h2>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ produto_form.as_p }}
+            </div>
+            <div class="form-group">
+                {{ produto_filho_form.as_p }}
+            </div>
+            <div class="form-group">
+                {{ foto_form.as_p }}
+            </div>
+            <button type="submit">Salvar</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const valorInput = document.querySelector('input[name="valor"]');
+            
+            if (valorInput) {
+                valorInput.addEventListener('input', function () {
+                    let value = valorInput.value.replace(/\D/g, '');
+                    value = (value / 100).toFixed(2);
+                    value = value.replace('.', ',');
+                    value = value.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
+                    valorInput.value = 'R$ ' + value;
+                });
+
+                // Format initial value if it's already present
+                let initialValue = valorInput.value.replace(/\D/g, '');
+                if (initialValue) {
+                    initialValue = (initialValue / 100).toFixed(2);
+                    initialValue = initialValue.replace('.', ',');
+                    initialValue = initialValue.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
+                    valorInput.value = 'R$ ' + initialValue;
+                }
+            }
+        });
+    </script>
+</body>
+</html>

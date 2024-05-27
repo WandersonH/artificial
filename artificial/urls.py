@@ -17,8 +17,19 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
+from espelho import views as espelho_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('espelho.urls')),
+    path('', espelho_views.home, name='home'),
+    path('produtos/', espelho_views.listar_produtos, name='listar_produtos'),
+    path('generate_qr/', espelho_views.generate_qr_code, name='generate_qr_code'),
+    path('dressing_room_limited/', espelho_views.dressing_room_limited, name='dressing_room_limited'),
+    path('logout/', espelho_views.logout_view, name='logout'),
+    path('usuario_app/', include('usuario_app.urls')),
+    path('lojista/', include('lojista_app.urls')),  # Ajuste aqui
 ]
+
+
+
+

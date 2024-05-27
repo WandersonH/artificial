@@ -36,7 +36,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'espelho',
+    'usuario_app',
+    'lojista_app',
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -53,7 +56,11 @@ ROOT_URLCONF = 'artificial.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'espelho/templates')],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'espelho/templates'),
+            os.path.join(BASE_DIR, 'lojista_app/templates'),
+            os.path.join(BASE_DIR, 'usuario_app/templates')
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -65,6 +72,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'artificial.wsgi.application'
 
@@ -115,6 +123,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'espelho/static'),
+    os.path.join(BASE_DIR, 'lojista_app/static'),
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

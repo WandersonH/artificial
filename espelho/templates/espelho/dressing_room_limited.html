@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Provador Virtual</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <h1>Provador Virtual</h1>
+    <div class="categorias">
+        {% for categoria in categorias %}
+            <div class="categoria">
+                <h2>{{ categoria.nome }}</h2>
+                <div class="produtos">
+                    {% for produto in produtos %}
+                        {% if produto.categoria == categoria %}
+                            <div class="produto">
+                                <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}">
+                                <p>{{ produto.nome }}</p>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

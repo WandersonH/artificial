@@ -1,12 +1,13 @@
-<!-- espelho/templates/espelho/home.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
 </head>
 <body>
-    <h1>Bem-vindo à página inicial</h1>
+    <h1>Bem-vindo à Home Page</h1>
+    <a href="{% url 'listar_produtos' %}">Listar Produtos</a><br>
+    <a href="{% url 'generate_qr_code' %}">Gerar QR Code</a><br>
+    <a href="{% url 'dressing_room_limited' %}">Dressing Room Limitado</a><br>
+    <a href="{% url 'logout' %}">Logout</a>
 </body>
 </html>

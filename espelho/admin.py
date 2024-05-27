@@ -1,8 +1,6 @@
 from django.contrib import admin
+from .models import Produto, LoginEspelho, Experimentacao as ExperimentacaoEspelho
 
-# Register your models here.
-from .models import Usuario, Produto, Profile
-
-admin.site.register(Usuario)
 admin.site.register(Produto)
-admin.site.register(Profile)
+admin.site.register(LoginEspelho)
+admin.site.register(ExperimentacaoEspelho)
