@@ -17,6 +17,8 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 from espelho import views as espelho_views
 
 urlpatterns = [
@@ -27,8 +29,9 @@ urlpatterns = [
     path('dressing_room_limited/', espelho_views.dressing_room_limited, name='dressing_room_limited'),
     path('logout/', espelho_views.logout_view, name='logout'),
     path('usuario_app/', include('usuario_app.urls')),
-    path('lojista/', include('lojista_app.urls')),  # Ajuste aqui
-]
+    path('lojista/', include('lojista_app.urls')),
+    path('ckeditor/', include('ckeditor_uploader.urls')),## editor lojista
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
 

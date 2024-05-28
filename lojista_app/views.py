@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login as auth_login
-from .forms import ProdutoForm, ProdutoFilhoForm, FotoForm
-from .models import Produto, ProdutoFilho, Foto
+from .forms import ProdutoForm, VarianteForm, FotoForm
+from .models import Produto, Variante, Foto
 
 def home(request):
     return render(request, 'lojista_app/home.html')
@@ -34,29 +34,29 @@ def perfil(request):
 def criar_produto(request):
     if request.method == "POST":
         produto_form = ProdutoForm(request.POST, request.FILES)
-        produto_filho_form = ProdutoFilhoForm(request.POST)
+        variante_forms = [VarianteForm(request.POST, prefix=str(i)) for i in range(5)]
         foto_form = FotoForm(request.POST, request.FILES)
-        
-        if produto_form.is_valid() and produto_filho_form.is_valid() and foto_form.is_valid():
+
+        if produto_form.is_valid() and all([vf.is_valid() for vf in variante_forms]) and foto_form.is_valid():
             produto = produto_form.save()
-            produto_filho = produto_filho_form.save(commit=False)
-            produto_filho.produto = produto
-            produto_filho.save()
-            foto = foto_form.save(commit=False)
-            foto.produto = produto
-            foto.save()
+            for vf in variante_forms:
+                variante = vf.save(commit=False)
+                variante.produto = produto
+                variante.save()
+            fotos = request.FILES.getlist('imagem')
+            for foto in fotos:
+                Foto.objects.create(produto=produto, imagem=foto)
             return redirect('sucesso')
     else:
         produto_form = ProdutoForm()
-        produto_filho_form = ProdutoFilhoForm()
+        variante_forms = [VarianteForm(prefix=str(i)) for i in range(5)]
         foto_form = FotoForm()
 
     return render(request, 'lojista_app/criar_produto.html', {
         'produto_form': produto_form,
-        'produto_filho_form': produto_filho_form,
+        'variante_forms': variante_forms,
         'foto_form': foto_form,
     })
-
 
 def atualizar_produto(request, pk):
     produto = get_object_or_404(Produto, pk=pk)
