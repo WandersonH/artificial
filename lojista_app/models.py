@@ -1,19 +1,20 @@
 from django.db import models
 from django.contrib.auth.models import User
-from ckeditor.fields import RichTextField  # Importar RichTextField
+from ckeditor.fields import RichTextField
 
 class Categoria(models.Model):
-    nome = models.CharField(max_length=100)
+    nome = models.CharField(max_length=255)
+    foto = models.ImageField(upload_to='categorias/')
 
     def __str__(self):
         return self.nome
 
 class Produto(models.Model):
     nome = models.CharField(max_length=255)
-    descricao = RichTextField()  # Usar RichTextField
+    descricao = RichTextField()
     preco_comparacao = models.DecimalField(max_digits=10, decimal_places=2)
     preco_venda = models.DecimalField(max_digits=10, decimal_places=2)
-    categoria = models.ForeignKey('Categoria', on_delete=models.CASCADE)
+    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
     estacao = models.CharField(max_length=20, choices=[
         ('primavera', 'Primavera'),
         ('verao', 'Verão'),
@@ -44,6 +45,9 @@ class Variante(models.Model):
     valor = models.CharField(max_length=100)
     preco_venda = models.DecimalField(max_digits=10, decimal_places=2)
     quantidade = models.IntegerField()
+    sku = models.CharField(max_length=100, blank=True, null=True)
+    barcode = models.CharField(max_length=100, blank=True, null=True)
+    harmonized_system_code = models.CharField(max_length=100, blank=True, null=True)
 
 class Foto(models.Model):
     produto = models.ForeignKey(Produto, related_name='fotos', on_delete=models.CASCADE)

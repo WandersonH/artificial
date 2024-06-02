@@ -1,0 +1,98 @@
+<!-- dressing_room.html -->
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dressing Room</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'path/to/your/carousel.css' %}">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <img src="{% static 'espelho/images/icon.png' %}" alt="Logotipo" class="logo">
+            <nav class="menu">
+                <a href="{% url 'espelho:home' %}"><i class="fas fa-home"></i><span>Home</span></a>
+                <a href="{% url 'espelho:dressing_room' %}"><i class="fas fa-tshirt"></i><span>Provador</span></a>
+                <a href="{% url 'espelho:camera' %}"><i class="fas fa-camera"></i><span>Câmera</span></a>
+                <a href="{% url 'espelho:profile' %}"><i class="fas fa-user"></i><span>Perfil</span></a>
+            </nav>
+        </div>
+    </header>
+    <div class="container">
+        <div class="camera-feed">
+            <video id="camera" autoplay></video>
+        </div>
+        <div class="microphone">
+            <i class="fas fa-microphone"></i>
+        </div>
+        
+        <!-- Adicionando o carrossel aqui -->
+        <div class="carousel-container">
+            <div class="carousel">
+                {% for categoria in categorias %}
+                <div class="carousel-item" data-category="{{ categoria.id }}">
+                    <div class="image-wrapper">
+                        <img src="{{ categoria.foto.url }}" alt="{{ categoria.nome }}">
+                    </div>
+                    <p class="category-name">{{ categoria.nome }}</p>
+                </div>
+                {% endfor %}
+            </div>
+            <button class="carousel-prev">&lt;</button>
+            <button class="carousel-next">&gt;</button>
+        </div>
+
+        <select id="category-select">
+            <option value="" selected>Selecione a categoria</option>
+            {% for categoria in categorias %}
+            <option value="{{ categoria.id }}">{{ categoria.nome }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+    <script>
+        const video = document.getElementById('camera');
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                video.srcObject = stream;
+            })
+            .catch(error => {
+                console.error("Erro ao acessar a câmera:", error);
+            });
+
+        $(document).ready(function(){
+            $('.carousel').slick({
+                infinite: true,
+                slidesToShow: 4,
+                slidesToScroll: 1,
+                arrows: false,
+            });
+
+            $('.carousel-prev').click(function() {
+                $('.carousel').slick('slickPrev');
+            });
+
+            $('.carousel-next').click(function() {
+                $('.carousel').slick('slickNext');
+            });
+
+            $('#category-select').on('change', function() {
+                var selectedCategory = $(this).val();
+                if (selectedCategory) {
+                    $('.carousel-item').hide();
+                    $('.carousel-item[data-category="' + selectedCategory + '"]').show();
+                } else {
+                    $('.carousel-item').show();
+                }
+                $('.carousel').slick('setPosition');
+            });
+        });
+    </script>
+</body>
+</html>

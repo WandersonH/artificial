@@ -1,6 +1,8 @@
 from django.contrib import admin
-from .models import Produto, LoginEspelho, Experimentacao as ExperimentacaoEspelho
+from .models import Produto, ExperimentationSession, KinectData, UserProfile
 
+# Registro dos modelos no admin
 admin.site.register(Produto)
-admin.site.register(LoginEspelho)
-admin.site.register(ExperimentacaoEspelho)
+admin.site.register(ExperimentationSession)
+admin.site.register(KinectData)
+admin.site.register(UserProfile)

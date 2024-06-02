@@ -1,19 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Espelho</title>
     {% load static %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
     <div class="container">
-        <!-- Imagem de fundo capturada pela câmera -->
         <div class="background">
             <video id="video" autoplay playsinline></video>
         </div>
-        <!-- Caixa translúcida central com o QR code -->
         <div class="login-box">
             <div class="qr-code">
                 <img src="{% url 'generate_qr_code' %}" alt="QR Code">
@@ -25,7 +24,6 @@
         </div>
     </div>
     <script>
-        // JavaScript para acessar a câmera
         const video = document.getElementById('video');
         navigator.mediaDevices.getUserMedia({ video: true })
             .then(stream => {
@@ -36,7 +34,6 @@
             });
     </script>
     <style>
-        /* Estilos CSS para o layout */
         body, html {
             height: 100%;
             margin: 0;

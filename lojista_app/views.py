@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login as auth_login
-from .forms import ProdutoForm, VarianteForm, FotoForm
+from .forms import ProdutoForm, VarianteForm, FotoForm, CategoriaForm
 from .models import Produto, Variante, Foto
 
 def home(request):
@@ -80,3 +80,13 @@ def deletar_produto(request, pk):
         produto.delete()
         return redirect('listar_produtos')
     return render(request, 'lojista_app/deletar_produto.html', {'produto': produto})
+
+def cadastrar_categoria(request):
+    if request.method == 'POST':
+        form = CategoriaForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('cadastrar_produto')  # Redirecionar para a página de cadastro de produto
+    else:
+        form = CategoriaForm()
+    return render(request, 'lojista_app/cadastrar_categoria.html', {'form': form})

@@ -1,9 +1,11 @@
 from django.contrib import admin
-from .models import Profile, Produto, ImagemProduto, Variante, Foto, Categoria
+from .models import Categoria, Produto, ImagemProduto, Variante, Foto, Profile
 
-admin.site.register(Profile)
-admin.site.register(Produto)
+# Certifique-se de que o modelo Produto não está sendo registrado duas vezes
+admin.site.register(Categoria)
+# Remova a linha duplicada
+# admin.site.register(Produto)  # Esta linha deve ser removida se já estiver registrada
 admin.site.register(ImagemProduto)
 admin.site.register(Variante)
 admin.site.register(Foto)
-admin.site.register(Categoria)
+admin.site.register(Profile)
